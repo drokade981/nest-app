@@ -1,4 +1,4 @@
-import { Controller, Get, Post } from "@nestjs/common";
+import { Controller, Get, Param, Post } from "@nestjs/common";
 import { UsersService } from "./users.service";
 
 // http://localhost:3000/users
@@ -9,6 +9,12 @@ export class UsersController {
     getUsers() {
         const UserService = new UsersService();
         return UserService.getAllUsers();
+    }
+
+    @Get(':id')
+    getUserById(@Param('id') id: any) {
+        const UserService = new UsersService();
+        return UserService.getUserById(+id);
     }
 
     @Post()
