@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Post, Query } from "@nestjs/common";
+import { Controller, DefaultValuePipe, Get, Param, ParseIntPipe, Post, Query } from "@nestjs/common";
 import { UsersService } from "./users.service";
 
 // http://localhost:3000/users
@@ -6,18 +6,20 @@ import { UsersService } from "./users.service";
 export class UsersController {
 
     @Get()
-    getUsers(@Query() query:any) {
+    getUsers(@Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit:number, 
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page:number 
+    ){
         const UserService = new UsersService();
-        if(query.gender) {
-            return UserService.getAllUsers().filter(u => u.gender === query.gender);
-        }
+        console.log(limit, page);
+        
         return UserService.getAllUsers();
     }
 
     @Get(':id')
-    getUserById(@Param('id') id: any) {
+    getUserById(@Param('id', ParseIntPipe) id: any) {
         const UserService = new UsersService();
-        return UserService.getUserById(+id);
+        console.log(typeof(id));
+        return UserService.getUserById(id); // +id can be used to convert in string to number
     }
 
     @Post()
