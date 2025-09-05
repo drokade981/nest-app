@@ -12,3 +12,16 @@ it will create a tweet folder inside "src" folder with tweet.module.ts file and 
 ```bash
 $ next g controller tweet
 ```
+
+Create user service abd use it in controller
+
+## create DTO
+
+add DTO validation
+install class-validator
+import { IsEmail, IsNotEmpty, IsOptional, IsString, MinLength } from "class-validator";
+
+to convert DTO validator to intance of class we install 
+ install class-transformer 
+
+connect DTO to action method
