@@ -24,10 +24,12 @@ export class UsersController {
     }
 
     @Post()
-    createUser(@Body(new ValidationPipe()) user: CreateUserDto) {
+    createUser(@Body() user: CreateUserDto) {
         
         const UserService = new UsersService();
         // UserService.createUser(user);
+        console.log(user instanceof CreateUserDto);
+        
         return 'new user has been created';
     }
 }
