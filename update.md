@@ -25,3 +25,6 @@ to convert DTO validator to intance of class we install
  install class-transformer 
 
 connect DTO to action method
+
+7----
+import create-user.dto in update.user.dto and make all parameter optional using mapped-types
