@@ -8,29 +8,28 @@ import { GetUserParamDto } from "./dtos/get-user-param.dto";
 @Controller('users')
 export class UsersController {
 
-    userService: UsersService;
+    constructor(private userService: UsersService) {
+
+    }
 
     @Get()
     getUsers(@Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit:number, 
         @Query('page', new DefaultValuePipe(1), ParseIntPipe) page:number, 
         @Param() param: GetUserParamDto
     ){
-        const UserService = new UsersService();
         console.log(param);
         return this.userService.getAllUsers();
     }
 
     @Get(':id')
     getUserById(@Param('id', ParseIntPipe) id: any) {
-        const UserService = new UsersService();
         console.log(typeof(id));
-        return UserService.getUserById(id); // +id can be used to convert in string to number
+        return this.userService.getUserById(id); // +id can be used to convert in string to number
     }
 
     @Post()
     createUser(@Body() user: CreateUserDto) {
         
-        const UserService = new UsersService();
         // UserService.createUser(user);
         console.log(user instanceof CreateUserDto);
         
