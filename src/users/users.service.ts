@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 
 @Injectable()
 export class UsersService {
-    users: {id:number, name : string, email : string, gender: string, isMarried: boolean
+    users: {id: Number, name : String, email : String, gender: String, isMarried: boolean
     }[] = [
         {id:1, name: 'john', email:'john@gmail.com', gender:'male', isMarried:false},
         {id:2, name: 'mark', email:'mark@gmail.com', gender:'male', isMarried:false},
@@ -13,11 +13,11 @@ export class UsersService {
         return this.users;
     }
 
-    getUserById(id:number){
+    getUserById(id: Number){
         return this.users.find(x => x.id === id);
     }
 
-    createUser(user: {id:number, name : string, email : string, gender: string, isMarried: boolean}) {
+    createUser(user: {id: Number, name: String, email: String, gender: string, isMarried: boolean}) {
         this.users.push(user);
     }
 }
