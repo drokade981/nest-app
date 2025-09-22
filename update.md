@@ -45,3 +45,8 @@ we have to export the service in same module and inport the module not service i
 use forward ref for circular dependancy in module and inject in service construct method
 
 constructor(@Inject(forwardRef(() => AuthService))private readonly authService: AuthService) {}
+
+```bash
+$ npm install typeorm @nestjs/typeorm pg
+```
+install pg for postgress database
