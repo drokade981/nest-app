@@ -10,10 +10,11 @@ it will create a tweet folder inside "src" folder with tweet.module.ts file and 
 ## command for create controller
 
 ```bash
-$ next g controller tweet
+$ nest g controller tweet
 ```
 
-Create user service abd use it in controller
+add --no-spec  for no spec file
+Create user service and use it in controller
 
 ## create DTO
 
@@ -27,4 +28,25 @@ to convert DTO validator to intance of class we install
 connect DTO to action method
 
 7----
-import create-user.dto in update.user.dto and make all parameter optional using mapped-types
+import create-user.dto in update.user.dto and make all parameter  optional using mapped-types
+
+8-----
+## command for create service
+
+```bash
+$ nest g service tweet
+```
+it will create tweet.service.ts in src/tweet folder and link it with controller in tweet.module.ts
+
+inter dependency injection
+we have to export the service in same module and inport the module not service in another module and inject it in constructor method of service and use it's function in service or in controller
+
+-- circular dependency 
+use forward ref for circular dependancy in module and inject in service construct method
+
+constructor(@Inject(forwardRef(() => AuthService))private readonly authService: AuthService) {}
+
+```bash
+$ npm install typeorm @nestjs/typeorm pg
+```
+install pg for postgress database
