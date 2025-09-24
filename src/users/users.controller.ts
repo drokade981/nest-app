@@ -13,32 +13,20 @@ export class UsersController {
     }
 
     @Get()
-    getUsers(@Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit:number, 
-        @Query('page', new DefaultValuePipe(1), ParseIntPipe) page:number, 
-        @Param() param: GetUserParamDto
-    ){
-        console.log(param);
-        return this.userService.getAllUsers();
+    getUsers(){
+       return this.userService.getAllUsers();
     }
 
-    @Get(':id')
-    getUserById(@Param('id', ParseIntPipe) id: any) {
-        console.log(typeof(id));
-        return this.userService.getUserById(id); // +id can be used to convert in string to number
-    }
+
 
     @Post()
     createUser(@Body() user: CreateUserDto) {
         
-        // UserService.createUser(user);
+        this.userService.createUser(user);
         console.log(user instanceof CreateUserDto);
         
         return 'new user has been created';
     }
 
-    @Patch()
-    updateUser(@Body() user: UpdateUserDto ) {
-        console.log(user);
-        return 'User updated sussessfully';
-    }
+
 }
