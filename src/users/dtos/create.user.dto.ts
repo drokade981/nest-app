@@ -1,8 +1,7 @@
 import { IsBoolean, IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
 
 export class CreateUserDto {
-    @IsNumber()
-    id: number;
+
 
     @IsString({message : 'first Name should be string'})
     @IsNotEmpty()
@@ -18,7 +17,7 @@ export class CreateUserDto {
 
     @IsString()
     @IsEmail()
-    @MaxLength(10)
+    @MaxLength(20)
     email: string;
 
     @IsString()

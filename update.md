@@ -50,3 +50,37 @@ constructor(@Inject(forwardRef(() => AuthService))private readonly authService: 
 $ npm install typeorm @nestjs/typeorm pg
 ```
 install pg for postgress database
+
+## 11 create repository
+
+create an entity eg. user.entity.ts
+regitster it in module like  
+
+```bash
+import { User } from './user.entity';
+```
+```bash
+imports: [TypeOrmModule.forFeature([User])],
+```
+
+inject repository in service
+```bash
+// users.service.ts
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
+
+@Injectable()
+export class UsersService {
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
+
+  async createUser(name: string, email: string): Promise<User> {
+    const user = this.userRepository.create({ name, email });
+    return this.userRepository.save(user);
+  }
+}
+```

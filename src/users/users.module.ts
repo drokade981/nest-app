@@ -10,7 +10,10 @@ import { User } from "./user.entity";
     providers: [UsersService],
     exports: [UsersService],
     imports: [
-        forwardRef(() => AuthModule),  // forward ref for circular dependancy
+        // forwardRef(() => AuthModule),  // forward ref for circular dependancy
+        TypeOrmModule.forFeature([
+            User // pass the entity for repository 
+        ])
     ]
 })
 export class UsersModule {

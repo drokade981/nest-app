@@ -1,31 +1,40 @@
 import { Injectable, Inject, forwardRef } from "@nestjs/common";
-import { AuthService } from "src/auth/auth.service";
+import { Repository } from "typeorm";
+import { User } from "./user.entity";
+import { InjectRepository } from "@nestjs/typeorm";
+import { CreateUserDto } from "./dtos/create.user.dto";
+
 
 @Injectable()
 export class UsersService {
 
-    constructor(@Inject(forwardRef(() => AuthService))private readonly authService: AuthService) {}
+    constructor(
+        @InjectRepository(User)
+        private userRepository: Repository<User>
+    ) {}
     // forward ref for circular dependancy
 
-    users: {id: Number, name : String, email : String, gender: String, isMarried: boolean, password: String
-    }[] = [
-        {id:1, name: 'john', email:'john@gmail.com', gender:'male', isMarried:false, password: 'Test123'},
-        {id:2, name: 'mark', email:'mark@gmail.com', gender:'male', isMarried:false, password: 'Test123'},
-        {id:3, name: 'marry', email:'marry@gmail.com', gender:'female', isMarried:true, password: 'Test123'},
-    ];
 
     getAllUsers() {
-        if(this.authService.isAuthenticated) {
-            return this.users;
-        }
-        return 'You are not logged in';
+        return this.userRepository.find();
     }
 
     getUserById(id: Number){
-        return this.users.find(x => x.id === id);
+        
     }
 
-    createUser(user: {id: Number, name: String, email: String, gender: string, isMarried: boolean, password: String}) {
-        this.users.push(user);
+    public async createUser(userDto: CreateUserDto) {
+       // validate if user email already exist
+        const user = await this.userRepository.findOne({
+            where: { email: userDto.email}
+        })
+       // handle error / exception
+       if (user){
+        return 'the user with given email already exist';
+       }
+       //create user
+       let newUser = this.userRepository.create(userDto);
+       newUser = await this.userRepository.save(newUser);
+       return newUser;
     }
 }
