@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TweetModule } from './tweet/tweet.module';
 import { AuthModule } from './auth/auth.module';
 import { User } from './users/user.entity';
+import { ProfileModule } from './profile/profile.module';
 
 @Module({
   imports: [UsersModule, TweetModule, AuthModule, TypeOrmModule.forRootAsync({
@@ -13,7 +14,8 @@ import { User } from './users/user.entity';
     inject: [],
     useFactory: () => ({
       type: 'postgres',
-      entities: [User],
+      // entities: [User],
+      autoLoadEntities: true,  // for autlo load of all entity
       synchronize: true, // true only for development and true for production
       host: 'localhost',
       port: 5432,
@@ -21,7 +23,7 @@ import { User } from './users/user.entity';
       password: 'Test@123',
       database: 'nestjs'
     })
-  })],
+  }), ProfileModule],
   controllers: [AppController],
   providers: [AppService],
 })
