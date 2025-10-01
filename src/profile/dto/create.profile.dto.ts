@@ -20,13 +20,13 @@ export class CreateProfileDto {
 
     @IsOptional()
     @IsDate()
-    dateOfBirth: string;
+    dateOfBirth ?: string;
 
     @IsOptional()
     @IsString()
-    bio: string;
+    bio ?: string;
 
     @IsOptional()
     @IsString()
-    profileImage: string;
+    profileImage ?: string;
 }

@@ -3,14 +3,17 @@ import { Repository } from "typeorm";
 import { User } from "./user.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { CreateUserDto } from "./dtos/create.user.dto";
-
+import { Profile } from "src/profile/profile.entity";
 
 @Injectable()
 export class UsersService {
 
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+
+        @InjectRepository(Profile)
+        private profileRepository: Repository<Profile>
     ) {}
     // forward ref for circular dependancy
 
@@ -24,17 +27,21 @@ export class UsersService {
     }
 
     public async createUser(userDto: CreateUserDto) {
-       // validate if user email already exist
-        const user = await this.userRepository.findOne({
-            where: { email: userDto.email}
-        })
-       // handle error / exception
-       if (user){
-        return 'the user with given email already exist';
-       }
-       //create user
-       let newUser = this.userRepository.create(userDto);
-       newUser = await this.userRepository.save(newUser);
-       return newUser;
+        // create profile and save
+        userDto.profile = userDto.profile ?? {};
+        let profile = this.profileRepository.create(userDto.profile);
+   
+        await this.profileRepository.save(profile);
+        const { profile: _, ...safeDto } = userDto;
+
+        // create user object 
+        let user = this.userRepository.create(safeDto);
+
+        // save user profile
+        user.profile = profile;
+
+        // save the user object
+        return await this.userRepository.save(user);
+
     }
 }

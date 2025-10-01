@@ -1,9 +1,10 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Profile } from "src/profile/profile.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn()
-    id: number;
+    id ?: number;
 
     @Column({
         type: 'varchar',
@@ -27,6 +28,10 @@ export class User {
         length: 100
     })
     password: string;
+
+    @OneToOne(() => Profile, { cascade: true, eager: true }) // profile to user -> user table have profileId field
+    @JoinColumn() // This makes User the owner of the relationship
+    profile?: Profile | undefined;
 
     @CreateDateColumn()
     createdAt: Date;

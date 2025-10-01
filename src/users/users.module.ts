@@ -4,6 +4,7 @@ import { UsersService } from "./users.service";
 import { AuthModule } from "src/auth/auth.module";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { User } from "./user.entity";
+import { Profile } from "src/profile/profile.entity";
 
 @Module({
     controllers: [UsersController],
@@ -12,7 +13,8 @@ import { User } from "./user.entity";
     imports: [
         // forwardRef(() => AuthModule),  // forward ref for circular dependancy
         TypeOrmModule.forFeature([
-            User // pass the entity for repository 
+            User, // pass the entity for repository 
+            Profile
         ])
     ]
 })
