@@ -29,7 +29,10 @@ export class User {
     })
     password: string;
 
-    @OneToOne(() => Profile, { cascade: true, eager: true }) // profile to user -> user table have profileId field
+    @OneToOne(() => Profile, { 
+        cascade: ['insert'],
+        eager: true // for getting profile with user using eager loading
+    }) // profile to user -> user table have profileId field
     @JoinColumn() // This makes User the owner of the relationship
     profile?: Profile | undefined;
 
