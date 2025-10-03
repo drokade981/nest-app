@@ -29,13 +29,13 @@ export class UsersService {
     public async createUser(userDto: CreateUserDto) {
         // create profile and save
         userDto.profile = userDto.profile ?? {};
-        // let profile = this.profileRepository.create(userDto.profile);
+        let profile = this.profileRepository.create(userDto.profile);
    
-        // await this.profileRepository.save(profile);
-        // const { profile: _, ...safeDto } = userDto;
+        await this.profileRepository.save(profile);
+        const { profile: _, ...safeDto } = userDto;
 
         // create user object 
-        let user = this.userRepository.create(userDto);
+        let user = this.userRepository.create(safeDto);
 
         // save user profile
         // user.profile = profile;  // no need to specify it as we define it in user intity
